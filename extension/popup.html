@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/opendyslexic');
+
+    body {
+      width: 320px;
+      margin: 0;
+      padding: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+    }
+
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      color: #0f172a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 10px;
+      background: #0284c7;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Auth Box */
+    .auth-box {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    .auth-box input {
+      width: 93%;
+      padding: 6px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+    }
+    .auth-actions {
+      display: flex;
+      gap: 6px;
+    }
+    .auth-actions button {
+      flex: 1;
+      padding: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #loginBtn { background: #0284c7; color: white; }
+    #registerBtn { background: #e2e8f0; color: #1e293b; }
+
+    /* Alert Message */
+    #statusMsg {
+      font-size: 11px;
+      margin-bottom: 8px;
+      padding: 6px;
+      border-radius: 4px;
+      display: none;
+    }
+    .msg-error { background: #fee2e2; color: #b91c1c; border: 1px solid #f87171; }
+    .msg-success { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+
+    /* Live Interactive Proof Matrix */
+    .preview-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: background-color 0.2s ease;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+
+    .preview-confusion-pairs {
+      font-weight: 700;
+      font-size: 17px;
+      margin-bottom: 4px;
+      border-bottom: 1px dashed #cbd5e1;
+      padding-bottom: 4px;
+    }
+
+    .preview-text {
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .control-group {
+      margin-bottom: 10px;
+    }
+
+    .control-group label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    input[type=range] {
+      width: 100%;
+      margin: 0;
+    }
+
+    .tint-options {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .tint-btn {
+      flex: 1;
+      height: 24px;
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button.primary-btn {
+      width: 100%;
+      background-color: #0284c7;
+      color: white;
+      border: none;
+      padding: 9px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>DyslexiRead <span class="badge">Permanent Sync</span></h2>
+
+  <!-- Authentication Box -->
+  <div class="auth-box">
+    <input type="text" id="userId" placeholder="Unique User ID / Roll No">
+    <input type="password" id="password" placeholder="Password">
+    <div class="auth-actions">
+      <button id="loginBtn">Log In</button>
+      <button id="registerBtn">Sign Up / Register</button>
+    </div>
+  </div>
+
+  <div id="statusMsg"></div>
+
+  <!-- Interactive Proof Box -->
+  <div class="preview-label">Live Visual Proof Matrix</div>
+  <div id="previewCard" class="preview-card" style="background-color: #fbf0d9;">
+    <div id="previewPairs" class="preview-confusion-pairs" style="font-family: 'OpenDyslexic';">
+      b d p q &nbsp;|&nbsp; m w &nbsp;|&nbsp; n u
+    </div>
+    <p id="previewText" class="preview-text" style="font-family: 'OpenDyslexic'; line-height: 1.8; letter-spacing: 0.12em;">
+      Reading feels effortless when letters hold their visual ground.
+    </p>
+  </div>
+
+  <!-- Ergonomic Controls -->
+  <div class="control-group">
+    <label>Line Spacing <span id="lineVal">1.8x</span></label>
+    <input type="range" id="lineSpacing" min="1.2" max="2.6" step="0.1" value="1.8">
+  </div>
+
+  <div class="control-group">
+    <label>Letter Tracking <span id="trackVal">0.12em</span></label>
+    <input type="range" id="letterSpacing" min="0.0" max="0.30" step="0.02" value="0.12">
+  </div>
+
+  <div class="control-group">
+    <label>Contrast Background Tint</label>
+    <div class="tint-options">
+      <button class="tint-btn" style="background: #ffffff;" data-color="#ffffff" title="Default"></button>
+      <button class="tint-btn" style="background: #fbf0d9;" data-color="#fbf0d9" title="Warm Cream"></button>
+      <button class="tint-btn" style="background: #e2f1e8;" data-color="#e2f1e8" title="Soft Mint"></button>
+      <button class="tint-btn" style="background: #e8ecf8;" data-color="#e8ecf8" title="Cool Ice"></button>
+    </div>
+  </div>
+
+  <button id="saveCloudBtn" class="primary-btn">Save & Sync to Cloud</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
